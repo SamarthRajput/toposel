@@ -32,7 +32,16 @@ const userSchema = new mongoose.Schema({
         enum: ["male", "female", "other"]
     },
     dateOfBirth: {
-        type: Date
+        type: Date,
+        required: true,
+        set: (val) => {
+            if(typeof val == "string"){
+                // Convert DD/MM/YYYY into "YYYY-MM-DD"
+                const [day, month, year] = val.split("/");
+                return new Date(`${year}-${month}-${day}`);
+            }
+            return val; // Return as is if it's already a Date
+        }
     },
     country: {
         type: String,

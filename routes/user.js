@@ -70,18 +70,20 @@ router.post("/signin", async (req, res) => {
 router.get("/bulk", async (req, res) => {
     const filter = req.query.filter || "";
 
+    console.log("filter is " + filter);
     // finding the users in database according to there username or fullname 
     const users = await User.find({
         "$or": [{
             username: {
                 "$regex": filter
             },
+        }, {
             fullName: {
                 "$regex": filter
             }
         }]
     })
-
+    console.log(users);
     // retrieving there full information 
     res.json({
         // we dont want to return the password to the user 
